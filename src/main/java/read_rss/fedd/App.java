@@ -1,57 +1,36 @@
 package read_rss.fedd;
 
-import java.awt.List;
-import java.io.FileWriter;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.io.SyndFeedInput;
-import com.rometools.rome.io.XmlReader;
+import read_rss.data.InfoMoneyData;
+import read_rss.data.InvestingData;
+import read_rss.data.TradingViewData;
 
 public class App {
 	
     public static void main( String[] args ) throws Exception {
     	
-    	String papel 		= "nflx";
-    	JSONArray list 		= new JSONArray();
-    	URL url 			= new URL("https://br.tradingview.com/feed/?symbol=" + papel);
-    	XmlReader reader 	= null;
+    	@SuppressWarnings("unused")
+		final TradingViewData sampleT 	= new TradingViewData();
+    	@SuppressWarnings("unused")
+		final InfoMoneyData sampleM 	= new InfoMoneyData();
+//    	@SuppressWarnings("unused")
+		final InvestingData sampleC		= new InvestingData();
     	
-    	try {
-    		
-    		reader 			= new XmlReader(url);
-    		SyndFeed feed 	= new SyndFeedInput().build(reader);
-    		
-    		for (Iterator i = feed.getEntries().iterator(); i.hasNext();) {
-				SyndEntry entry = (SyndEntry) i.next();
-				
-				JSONObject tec = new JSONObject();
-								
-				tec.put("title", entry.getTitle());
-				tec.put("description", entry.getDescription().getValue());				
-				
-				list.add(tec);
-								
-				try (FileWriter file = new FileWriter("c:\\Users\\vitor\\Desktop\\" + papel + ".json")) {	    		
-		    		file.write(list.toJSONString());
-		    		file.flush();				
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-			}
-    		    		
-    	} finally {
-			if(reader != null)
-				reader.close();
-		}
+//    	sampleT.TradingView("jbss3");
+//    	sampleT.TradingView("petr4");
+//    	sampleT.TradingView("aapl");
+//    	sampleT.TradingView("itub4");
     	
+//    	sampleM.InfoMoney("acoes", "https://www.infomoney.com.br/onde-investir/acoes/rss");
+//    	sampleM.InfoMoney("analise-tecnica", "https://www.infomoney.com.br/mercados/analise-tecnica/rss");
+//    	sampleM.InfoMoney("bitcoin", "https://www.infomoney.com.br/mercados/bitcoin/rss");
+//    	sampleM.InfoMoney("acoes-indices", "https://www.infomoney.com.br/mercados/acoes-e-indices/rss");
+    	
+    	sampleC.Investing("analise-tecnica-mercado", "https://br.investing.com/rss/market_overview_Technical.rss");
+    	sampleC.Investing("analise-funda-mercado", "https://br.investing.com/rss/market_overview_Fundamental.rss");
+    	sampleC.Investing("analise-tecnica-acoes", "https://br.investing.com/rss/stock_Technical.rss");
+    	sampleC.Investing("analise-funda-acoes", "https://br.investing.com/rss/stock_Fundamental.rss");
+    	sampleC.Investing("opiniao-mercado", "https://br.investing.com/rss/stock_Opinion.rss");
+
     }
     
 }
