@@ -96,7 +96,7 @@ public class InvestingData {
 				}				
 			}    		
 		} finally {
-			if(r2 != null)
+			if(r2 != null)	
 				r2.close();
 		}
 		
