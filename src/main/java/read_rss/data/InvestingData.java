@@ -3,6 +3,10 @@ package read_rss.data;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -74,6 +78,16 @@ public class InvestingData {
 		
 		String status = null;
 		
+		LocalDate today = LocalDate.now();		
+		String fileName = "c:\\Users\\vitor\\Documents\\GetDataset\\Investing.com\\"+today+"\\";		
+		Path path 		= Paths.get(fileName);
+		
+		if(!Files.exists(path)){
+			Files.createDirectory(path);
+		} else {
+			System.out.println("Erro");
+		}
+		
 		JSONArray list_im 	= new JSONArray();
 		URL url2			= new URL(link);
 		XmlReader r2 		= null;
@@ -87,7 +101,7 @@ public class InvestingData {
 				tec1.put("title", unescapeHTML(entry.getTitle(), 0));
 				tec1.put("author", entry.getAuthor());				
 				list_im.add(tec1);								
-				try (FileWriter file = new FileWriter("c:\\Users\\vitor\\Documents\\GetDataset\\Investing.com\\" + tipo + ".json")) {	    		
+				try (FileWriter file = new FileWriter(fileName + tipo + ".json")) {	    		
 		    		file.write(list_im.toJSONString());
 		    		file.flush();
 		    		status = "ok - investing";

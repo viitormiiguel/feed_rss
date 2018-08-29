@@ -79,15 +79,12 @@ public class InfoMoneyData {
 		
 		String status = null;
 		
-		LocalDate today = LocalDate.now();
-		
-		String fileName = "c:\\Users\\vitor\\Documents\\GetDataset\\Infomoney\\"+today+"\\";
-		
-		Path path = Paths.get(fileName);
+		LocalDate today = LocalDate.now();		
+		String fileName = "c:\\Users\\vitor\\Documents\\GetDataset\\Infomoney\\"+today+"\\";		
+		Path path 		= Paths.get(fileName);
 		
 		if(!Files.exists(path)){
 			Files.createDirectory(path);
-			System.out.println("Sucesso");
 		} else {
 			System.out.println("Erro");
 		}
@@ -118,7 +115,7 @@ public class InfoMoneyData {
 				r2.close();
 		}
 		
-		System.out.println(status);
+//		System.out.println(status);
 		
 		return status;
 		

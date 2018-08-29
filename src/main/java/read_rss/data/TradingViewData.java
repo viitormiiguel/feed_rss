@@ -3,6 +3,10 @@ package read_rss.data;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -76,6 +80,16 @@ public class TradingViewData {
 		
 		String status = null;
 		
+		LocalDate today = LocalDate.now();		
+		String fileName = "c:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\"+today+"\\";		
+		Path path 		= Paths.get(fileName);
+		
+		if(!Files.exists(path)){
+			Files.createDirectory(path);
+		} else {
+			System.out.println("Erro");
+		}
+		
     	JSONArray list 		= new JSONArray();
     	URL url1 			= new URL("https://br.tradingview.com/feed/?symbol=" + papel);
     	XmlReader reader 	= null;
@@ -89,7 +103,7 @@ public class TradingViewData {
 				tec.put("title", entry.getTitle());
 				tec.put("description", unescapeHTML(entry.getDescription().getValue(), 0));	
 				list.add(tec);								
-				try (FileWriter file = new FileWriter("c:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\" + papel + ".json")) {	    		
+				try (FileWriter file = new FileWriter(fileName + papel + ".json")) {	    		
 		    		file.write(list.toJSONString());
 		    		file.flush();
 		    		status = "ok";
