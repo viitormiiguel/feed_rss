@@ -84,8 +84,6 @@ public class InvestingData {
 		
 		if(!Files.exists(path)){
 			Files.createDirectory(path);
-		} else {
-			System.out.println("Erro");
 		}
 		
 		JSONArray list_im 	= new JSONArray();

@@ -1,5 +1,6 @@
 package read_rss.data;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -9,16 +10,20 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Iterator;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
+
+
 
 public class TradingViewData {
 	
@@ -86,8 +91,6 @@ public class TradingViewData {
 		
 		if(!Files.exists(path)){
 			Files.createDirectory(path);
-		} else {
-			System.out.println("Erro");
 		}
 		
     	JSONArray list 		= new JSONArray();
@@ -96,19 +99,20 @@ public class TradingViewData {
     	    	
     	try {    		
     		reader 			= new XmlReader(url1);
-    		SyndFeed feed 	= new SyndFeedInput().build(reader);    		
-    		for (Iterator i = feed.getEntries().iterator(); i.hasNext();) {
-				SyndEntry entry = (SyndEntry) i.next();				
-				JSONObject tec 	= new JSONObject();
+    		SyndFeed feed 	= new SyndFeedInput().build(reader);
+    		
+    		for (Iterator i = feed.getEntries().iterator(); i.hasNext();) {			    			
+    			SyndEntry entry = (SyndEntry) i.next();				
+				JSONObject tec 	= new JSONObject();				
+				System.out.println(entry);				
 				tec.put("title", entry.getTitle());
 				tec.put("description", unescapeHTML(entry.getDescription().getValue(), 0));	
 				
 				//Função para pegar tag de categoria
-				String url = entry.getLink();
-				Document document = Jsoup.connect(url).followRedirects(false).timeout(6000).get();
-				String value = document.body().getElementsByClass("tv-idea-label").get(0).text();
-				System.out.println(value);
-				tec.put("category", value);
+				//String url 			= entry.getLink();
+				//Document document 	= Jsoup.connect(url).followRedirects(false).timeout(6000).get();
+				//String value 		= document.body().getElementsByClass("tv-idea-label").get(0).text();
+				//tec.put("category", value);
 				
 				list.add(tec);								
 				try (FileWriter file = new FileWriter(fileName + papel + ".json")) {	    		
@@ -118,12 +122,14 @@ public class TradingViewData {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}				
-			}    		
+			}   
+    		
     	} finally {
-			if(reader != null)
+			if(reader != null) {
 				reader.close();
+			}
 		}
-    	
+	    	
     	System.out.println(status);
 		
 		return status;
@@ -131,3 +137,30 @@ public class TradingViewData {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

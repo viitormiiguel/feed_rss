@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -85,8 +84,6 @@ public class InfoMoneyData {
 		
 		if(!Files.exists(path)){
 			Files.createDirectory(path);
-		} else {
-			System.out.println("Erro");
 		}
 				
 		JSONArray list_im 	= new JSONArray();
