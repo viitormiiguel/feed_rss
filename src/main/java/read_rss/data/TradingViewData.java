@@ -11,14 +11,14 @@ import java.util.Iterator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
-
-import read_rss.data.Subs;
 
 public class TradingViewData {
 	
@@ -52,12 +52,12 @@ public class TradingViewData {
 	  {  "&yacute;" , "ý" }, {  "&thorn;"  ,"þ" },    {  "&yuml;"   ,"ÿ" }
     };
 
-	 public static final String unescapeHTML(String s, int start){
+	public static final String unescapeHTML(String s, int start){
 	 	 int i, j, k;
 	     i 		= s.indexOf("&", start);
-	     start 	= i + 1;	     
-	     if (i > -1) {
-	    	 j = s.indexOf(";" ,i);
+		 start 	= i + 1;	     
+		 if (i > -1) {
+			 j = s.indexOf(";" ,i);
 	    	 if (j > i) {
 	    		 String temp = s.substring(i , j + 1);
 	    		 k = 0;
@@ -73,7 +73,7 @@ public class TradingViewData {
 	         }
 	     }
 	     return s;
-	  }
+	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public String TradingView (String papel) throws IOException, IllegalArgumentException, FeedException {
@@ -102,6 +102,14 @@ public class TradingViewData {
 				JSONObject tec 	= new JSONObject();
 				tec.put("title", entry.getTitle());
 				tec.put("description", unescapeHTML(entry.getDescription().getValue(), 0));	
+				
+				//Função para pegar tag de categoria
+				String url = entry.getLink();
+				Document document = Jsoup.connect(url).followRedirects(false).timeout(6000).get();
+				String value = document.body().getElementsByClass("tv-idea-label").get(0).text();
+				System.out.println(value);
+				tec.put("category", value);
+				
 				list.add(tec);								
 				try (FileWriter file = new FileWriter(fileName + papel + ".json")) {	    		
 		    		file.write(list.toJSONString());
