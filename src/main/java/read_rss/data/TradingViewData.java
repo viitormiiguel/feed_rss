@@ -149,11 +149,12 @@ public class TradingViewData {
 //            	System.out.println(url);   	
             	
             	String t1 = url.replace("/v/","/chart/"+papel.toUpperCase()+"/");
-            	System.out.println(t1);
+            	String t2 = t1.replace("http", "https");
+            	System.out.println(t2);
             	
-//            	Document document = Jsoup.connect(t1).followRedirects(false).timeout(6000).get();
-//        		String value = document.body().getElementsByClass("tv-idea-label").get(0).text();
-//        		System.out.println(value);
+            	Document document = Jsoup.connect(t2).followRedirects(false).timeout(6000).get();
+        		String value = document.body().getElementsByClass("tv-idea-label").get(0).text();
+        		System.out.println(value);
             	
             }
 
