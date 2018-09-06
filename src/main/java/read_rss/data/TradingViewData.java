@@ -1,8 +1,5 @@
 package read_rss.data;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -12,13 +9,8 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Iterator;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -27,8 +19,6 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
-
-
 
 public class TradingViewData {
 	
@@ -113,6 +103,20 @@ public class TradingViewData {
 				tec.put("description", unescapeHTML(entry.getDescription().getValue(), 0));	
 				tec.put("link", entry.getLink());
 				
+				String url 	= entry.getLink();
+				String t1 	= url.replace("/v/","/chart/"+papel.toUpperCase()+"/");
+            	String t2 	= t1.replace("http", "https");
+            	//System.out.println(t2);
+            	
+            	Document document = Jsoup.connect(t2).followRedirects(false).timeout(6000).get();
+            	if(!document.body().getElementsByClass("tv-idea-label").isEmpty()) {
+            		String value = document.body().getElementsByClass("tv-idea-label").get(0).text();
+            		//System.out.println(value);
+            		tec.put("classe", value);
+            	} else {
+            		tec.put("classe", null);
+            	}
+				
 				list.add(tec);								
 				try (FileWriter file = new FileWriter(fileName + papel + ".json")) {	    		
 		    		file.write(list.toJSONString());
@@ -130,44 +134,8 @@ public class TradingViewData {
 		}
 	    	
     	System.out.println(status);
-    	    	
-    	JSONParser parser = new JSONParser();
-
-        try {
-
-            Object obj = parser.parse(new FileReader("c:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\"+today+"\\"+papel+".json"));
-
-            JSONArray jsonObject = (JSONArray) obj;
-            
-            for (int i = 1; i < jsonObject.size() ; i++) {
-            	
-            	String ob = jsonObject.get(i).toString();
-            	
-            	JSONObject teste = (JSONObject) parser.parse(ob);
-            	
-            	String url = (String) teste.get("link");
-//            	System.out.println(url);   	
-            	
-            	String t1 = url.replace("/v/","/chart/"+papel.toUpperCase()+"/");
-            	String t2 = t1.replace("http", "https");
-            	System.out.println(t2);
-            	
-            	Document document = Jsoup.connect(t2).followRedirects(false).timeout(6000).get();
-        		String value = document.body().getElementsByClass("tv-idea-label").get(0).text();
-        		System.out.println(value);
-            	
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-		        
-        return status;	
-		
+     
+        return status;			
 		
 	}
 
