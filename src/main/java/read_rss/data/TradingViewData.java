@@ -1,6 +1,8 @@
 package read_rss.data;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -15,7 +17,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -103,16 +108,10 @@ public class TradingViewData {
     		
     		for (Iterator i = feed.getEntries().iterator(); i.hasNext();) {			    			
     			SyndEntry entry = (SyndEntry) i.next();				
-				JSONObject tec 	= new JSONObject();				
-				System.out.println(entry);				
+				JSONObject tec 	= new JSONObject();		
 				tec.put("title", entry.getTitle());
 				tec.put("description", unescapeHTML(entry.getDescription().getValue(), 0));	
-				
-				//Função para pegar tag de categoria
-				//String url 			= entry.getLink();
-				//Document document 	= Jsoup.connect(url).followRedirects(false).timeout(6000).get();
-				//String value 		= document.body().getElementsByClass("tv-idea-label").get(0).text();
-				//tec.put("category", value);
+				tec.put("link", entry.getLink());
 				
 				list.add(tec);								
 				try (FileWriter file = new FileWriter(fileName + papel + ".json")) {	    		
@@ -131,8 +130,43 @@ public class TradingViewData {
 		}
 	    	
     	System.out.println(status);
+    	    	
+    	JSONParser parser = new JSONParser();
+
+        try {
+
+            Object obj = parser.parse(new FileReader("c:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\"+today+"\\"+papel+".json"));
+
+            JSONArray jsonObject = (JSONArray) obj;
+            
+            for (int i = 1; i < jsonObject.size() ; i++) {
+            	
+            	String ob = jsonObject.get(i).toString();
+            	
+            	JSONObject teste = (JSONObject) parser.parse(ob);
+            	
+            	String url = (String) teste.get("link");
+//            	System.out.println(url);   	
+            	
+            	String t1 = url.replace("/v/","/chart/"+papel.toUpperCase()+"/");
+            	System.out.println(t1);
+            	
+//            	Document document = Jsoup.connect(t1).followRedirects(false).timeout(6000).get();
+//        		String value = document.body().getElementsByClass("tv-idea-label").get(0).text();
+//        		System.out.println(value);
+            	
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		        
+        return status;	
 		
-		return status;
 		
 	}
 

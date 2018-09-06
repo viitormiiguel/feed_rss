@@ -1,5 +1,8 @@
 package read_rss.fedd;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import read_rss.data.InfoMoneyData;
 import read_rss.data.InvestingData;
 import read_rss.data.TradingViewData;
@@ -15,11 +18,9 @@ public class App {
 //		final InfoMoneyData sampleM 	= new InfoMoneyData();
 //    	@SuppressWarnings("unused")
 //		final InvestingData sampleC		= new InvestingData();
-		final TesteRead sampleTeste 		= new TesteRead();
     	
-		sampleTeste.readLink("petr4");
-    	sampleT.TradingView("jbss3");
-//    	sampleT.TradingView("petr4");
+//    	sampleT.TradingView("jbss3");
+    	sampleT.TradingView("petr4");
 //    	sampleT.TradingView("aapl");
 //    	sampleT.TradingView("itub4");
 //    	    	
@@ -33,7 +34,15 @@ public class App {
 //    	sampleC.Investing("analise-tecnica-acoes", "https://br.investing.com/rss/stock_Technical.rss");
 //    	sampleC.Investing("analise-funda-acoes", "https://br.investing.com/rss/stock_Fundamental.rss");
 //    	sampleC.Investing("opiniao-mercado", "https://br.investing.com/rss/stock_Opinion.rss"); 
-
+    	
+//    	String url1 = "https://br.tradingview.com/v/qSGMb7ra/";
+//    	String tes = url1.replace("/v/", "/chart/PETR4/");
+//    	System.out.println(tes);
+//    	    	
+//    	Document document = Jsoup.connect(tes).followRedirects(false).timeout(6000).get();
+//		String value = document.body().getElementsByClass("tv-idea-label").get(0).text();
+//		System.out.println(value);
+    	
 
     }
     
