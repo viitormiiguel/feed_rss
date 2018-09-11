@@ -51,11 +51,11 @@ public class InfoMoneyData {
 				try (FileWriter file = new FileWriter(fileName + tipo + ".json")) {	    		
 		    		file.write(list_im.toJSONString());
 		    		file.flush();
-		    		status = "ok - infomoney";
 				} catch (Exception e) {
 					e.printStackTrace();
 				}				
-			}    		
+			}
+			status = "Dados InfoMoney OK!";
 		} finally {
 			if(r2 != null)
 				r2.close();
