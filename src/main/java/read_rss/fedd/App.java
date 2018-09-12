@@ -12,7 +12,7 @@ public class App {
 		final InfoMoneyData sampleM 	= new InfoMoneyData();
 		final InvestingData sampleC		= new InvestingData();
 		
-		sampleT.convertJtoC();
+//		sampleT.convertJtoC();
     	
 		// ACÇÕES INDIVIDUAIS
 //    	sampleT.TradingView("jbss3");
@@ -27,8 +27,10 @@ public class App {
 //    	sampleT.TradingView("itsa4");
 //    	sampleT.TradingView("goll4");
 //    	sampleT.TradingView("bbas3");
-//    	sampleT.TradingView("abev3");    	
-    	    	    	
+//    	sampleT.TradingView("abev3");
+		
+		sampleT.csvWriter();
+
 //    	sampleM.InfoMoney("acoes", "https://www.infomoney.com.br/onde-investir/acoes/rss");
 //    	sampleM.InfoMoney("analise-tecnica", "https://www.infomoney.com.br/mercados/analise-tecnica/rss");
 //    	sampleM.InfoMoney("bitcoin", "https://www.infomoney.com.br/mercados/bitcoin/rss");

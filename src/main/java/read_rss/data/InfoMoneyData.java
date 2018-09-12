@@ -61,7 +61,7 @@ public class InfoMoneyData {
 				r2.close();
 		}
 		
-//		System.out.println(status);
+		System.out.println(status);
 		
 		return status;
 		
