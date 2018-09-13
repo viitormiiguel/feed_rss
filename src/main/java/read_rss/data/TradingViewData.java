@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -100,27 +101,42 @@ public class TradingViewData {
 //		
 //	}
 	
-	public String csvWriter () {
-		
-		String COMMA_DELIMITER 		= ";";
-		String NEW_LINE_SEPARATOR 	= "\n";		
-		String FILE_HEADER 			= "title;description;link;classe";		
+	public String csvWriter () throws IOException {
+			
 		String status 				= null;
+		String csvFile 				= "C:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\2018-09-10\\vale3.csv";
+		
+		FileWriter writer 			= new FileWriter(csvFile);
 		
 		JSONParser parser = new JSONParser();
 		
 		try {
 		
-			Object obj = parser.parse(new FileReader("C:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\2018-09-11\\petr4.json"));
+			Object obj = parser.parse(new FileReader("C:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\2018-09-10\\vale3.json"));
 					
 			JSONArray ja = (JSONArray) obj;			
 			
-			for (int i = 0; i < ja.size(); i++) {				
+			for (int i = 0; i < ja.size(); i++) {		
+				
 				JSONObject jo 		= (JSONObject) ja.get(i);
+				
 				String title 		= (String) jo.get("title");
 				String description 	= (String) jo.get("description");
-				String classe 		= (String) jo.get("classe");				
+				String classe 		= (String) jo.get("classe");
+				
+				System.out.println(i);
+				System.err.println(i);
+//				System.out.println(title);
+//				System.out.println(description);
+//				System.out.println(classe);
+				
+				Post.writeLine(writer, Arrays.asList(title, description, classe), ';','"');
+//				System.out.println("teste");
+				
 			}		
+			
+			writer.flush();
+			writer.close();
 					
 		} catch (Exception e) {
 			// TODO: handle exception

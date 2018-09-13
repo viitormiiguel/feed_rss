@@ -6,14 +6,14 @@ import java.util.List;
 
 public class Post {
 
-	private static final char DEFAULT_SEPARATOR = ";";
+	private static final char DEFAULT_SEPARATOR = ';';
 	
 	public static void writeLine(Writer w, List<String> values) throws IOException {
-		writeLine(w, values, DEFAULT_SEPARATOR, '');
+		writeLine(w, values, DEFAULT_SEPARATOR, ' ');
 	}
 	
 	public static void writeLine(Writer w, List<String> values, char separators) throws IOException {
-		writeLine(w, values, separators, '');
+		writeLine(w, values, separators, ' ');
 	}
 	
 	private static String followCVSFormat(String value) {
@@ -46,8 +46,10 @@ public class Post {
 			} else {
 				sb.append(customQuote).append(followCVSFormat(value)).append(customQuote);
 			}
-			
+			first = false;
 		}
+		sb.append("\n");
+		w.append(sb.toString());
 		
 	}
 	
