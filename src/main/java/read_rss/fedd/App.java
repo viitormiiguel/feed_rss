@@ -29,7 +29,19 @@ public class App {
 //    	sampleT.TradingView("bbas3");
 //    	sampleT.TradingView("abev3");
 		
-		sampleT.csvWriter();
+    	sampleT.csvWriter("jbss3");
+    	sampleT.csvWriter("petr4");
+    	sampleT.csvWriter("aapl");
+    	sampleT.csvWriter("itub4");
+    	sampleT.csvWriter("vale3");
+    	sampleT.csvWriter("btcusd");
+    	sampleT.csvWriter("natu3");
+    	sampleT.csvWriter("ltcbrl");
+    	sampleT.csvWriter("ibov");
+    	sampleT.csvWriter("itsa4");
+    	sampleT.csvWriter("goll4");
+    	sampleT.csvWriter("bbas3");
+    	sampleT.csvWriter("abev3");
 
 //    	sampleM.InfoMoney("acoes", "https://www.infomoney.com.br/onde-investir/acoes/rss");
 //    	sampleM.InfoMoney("analise-tecnica", "https://www.infomoney.com.br/mercados/analise-tecnica/rss");

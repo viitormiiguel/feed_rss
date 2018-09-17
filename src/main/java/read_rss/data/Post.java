@@ -37,7 +37,7 @@ public class Post {
 		StringBuilder sb = new StringBuilder();
 		
 		for(String value: values) {
-			
+									
 			if(!first) {
 				sb.append(separators);
 			}

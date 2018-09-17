@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.sound.midi.Synthesizer;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.io.FileUtils;
@@ -26,6 +28,7 @@ import org.json.simple.parser.JSONParser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import com.opencsv.CSVWriter;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
@@ -39,104 +42,96 @@ public class TradingViewData {
 	final Subs frmt = new Subs();
 	
 	@SuppressWarnings({ "rawtypes", "unchecked", "static-access" })
-//	public String TradingView (String papel) throws IOException, IllegalArgumentException, FeedException {
-//		
-//		String status = null;
-//		
-//		LocalDate today = LocalDate.now();		
-//		String fileName = "c:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\"+today+"\\";		
-//		Path path 		= Paths.get(fileName);
-//		
-//		if(!Files.exists(path)){
-//			Files.createDirectory(path);
-//		}
-//		
-//    	JSONArray list 		= new JSONArray();
-//    	URL url1 			= new URL("https://br.tradingview.com/feed/?symbol=" + papel);
-//    	XmlReader reader 	= null;
-//    	    	
-//    	try {    		
-//    		reader 			= new XmlReader(url1);
-//    		SyndFeed feed 	= new SyndFeedInput().build(reader);
-//    		
-//    		for (Iterator i = feed.getEntries().iterator(); i.hasNext();) {			    			
-//    			SyndEntry entry = (SyndEntry) i.next();				
-//				JSONObject tec 	= new JSONObject();		
-//				tec.put("title", entry.getTitle());
-//				tec.put("description", frmt.unescapeHTML(entry.getDescription().getValue(), 0));	
-//				tec.put("link", entry.getLink());
-//				
-//				String url 	= entry.getLink();
-//				String t1 	= url.replace("/v/","/chart/"+papel.toUpperCase()+"/");
-//            	String t2 	= t1.replace("http", "https");
-//            	//System.out.println(t2);
-//            	
-//            	Document document = Jsoup.connect(t2).followRedirects(false).timeout(6000).get();
-//            	if(!document.body().getElementsByClass("tv-idea-label").isEmpty()) {
-//            		String value = document.body().getElementsByClass("tv-idea-label").get(0).text();
-//            		//System.out.println(value);
-//            		tec.put("classe", value);
-//            	} else {
-//            		tec.put("classe", null);
-//            	}
-//				
-//				list.add(tec);								
-//				try (FileWriter file = new FileWriter(fileName + papel + ".json")) {	    		
-//		    		file.write(list.toJSONString());
-//		    		file.flush();
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}				
-//			}   
-//    		status = "Dados TradingView OK!";
-//    	} finally {
-//			if(reader != null) {
-//				reader.close();
-//			}
-//		}
-//	    	
-//    	System.out.println(status);
-//    	     
-//        return status;			
-//		
-//	}
+	public String TradingView (String papel) throws IOException, IllegalArgumentException, FeedException {
+		
+		String status = null;
+		
+		LocalDate today = LocalDate.now();		
+		String fileName = "c:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\"+today+"\\";		
+		Path path 		= Paths.get(fileName);
+		
+		if(!Files.exists(path)){
+			Files.createDirectory(path);
+		}
+		
+    	JSONArray list 		= new JSONArray();
+    	URL url1 			= new URL("https://br.tradingview.com/feed/?symbol=" + papel);
+    	XmlReader reader 	= null;
+    	    	
+    	try {    		
+    		reader 			= new XmlReader(url1);
+    		SyndFeed feed 	= new SyndFeedInput().build(reader);
+    		
+    		for (Iterator i = feed.getEntries().iterator(); i.hasNext();) {			    			
+    			SyndEntry entry = (SyndEntry) i.next();				
+				JSONObject tec 	= new JSONObject();		
+				tec.put("title", entry.getTitle());
+				tec.put("description", frmt.unescapeHTML(entry.getDescription().getValue(), 0));	
+				tec.put("link", entry.getLink());
+				
+				String url 	= entry.getLink();
+				String t1 	= url.replace("/v/","/chart/"+papel.toUpperCase()+"/");
+            	String t2 	= t1.replace("http", "https");
+            	//System.out.println(t2);
+            	
+            	Document document = Jsoup.connect(t2).followRedirects(false).timeout(6000).get();
+            	if(!document.body().getElementsByClass("tv-idea-label").isEmpty()) {
+            		String value = document.body().getElementsByClass("tv-idea-label").get(0).text();
+            		//System.out.println(value);
+            		tec.put("classe", value);
+            	} else {
+            		tec.put("classe", null);
+            	}
+				
+				list.add(tec);								
+				try (FileWriter file = new FileWriter(fileName + papel + ".json")) {	    		
+		    		file.write(list.toJSONString());
+		    		file.flush();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}				
+			}   
+    		status = "Dados TradingView OK!";
+    	} finally {
+			if(reader != null) {
+				reader.close();
+			}
+		}
+	    	
+    	System.out.println(status);
+    	     
+        return status;			
+		
+	}
 	
-	public String csvWriter () throws IOException {
+	public String csvWriter (String papel) throws IOException {
 			
 		String status 				= null;
-		String csvFile 				= "C:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\2018-09-10\\vale3.csv";
-		
-		FileWriter writer 			= new FileWriter(csvFile);
-		
+		CSVWriter csvWriter 		= new CSVWriter(new FileWriter("C:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\2018-09-17\\"+papel+".csv"));
+				
 		JSONParser parser = new JSONParser();
 		
 		try {
 		
-			Object obj = parser.parse(new FileReader("C:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\2018-09-10\\vale3.json"));
+			Object obj = parser.parse(new FileReader("C:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\2018-09-17\\"+papel+".json"));
 					
-			JSONArray ja = (JSONArray) obj;			
+			JSONArray ja = (JSONArray) obj;
 			
 			for (int i = 0; i < ja.size(); i++) {		
 				
 				JSONObject jo 		= (JSONObject) ja.get(i);
 				
-				String title 		= (String) jo.get("title");
-				String description 	= (String) jo.get("description");
 				String classe 		= (String) jo.get("classe");
+				String description 	= (String) jo.get("description");
+				String title 		= (String) jo.get("title");
+
+				String id = Integer.toString(i);
 				
-				System.out.println(i);
-				System.err.println(i);
-//				System.out.println(title);
-//				System.out.println(description);
-//				System.out.println(classe);
+				csvWriter.writeNext(new String[]{id, classe, description, title});
 				
-				Post.writeLine(writer, Arrays.asList(title, description, classe), ';','"');
-//				System.out.println("teste");
-				
-			}		
-			
-			writer.flush();
-			writer.close();
+			}	
+			csvWriter.close();
+			System.out.println("Arquivo gerado");
 					
 		} catch (Exception e) {
 			// TODO: handle exception
