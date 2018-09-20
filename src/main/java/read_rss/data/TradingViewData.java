@@ -1,27 +1,15 @@
 package read_rss.data;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 
-import javax.sound.midi.Synthesizer;
-
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
-import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -35,7 +23,6 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
-import read_rss.data.Post;
 
 public class TradingViewData {
 	
@@ -72,12 +59,10 @@ public class TradingViewData {
 				String url 	= entry.getLink();
 				String t1 	= url.replace("/v/","/chart/"+papel.toUpperCase()+"/");
             	String t2 	= t1.replace("http", "https");
-            	//System.out.println(t2);
             	
             	Document document = Jsoup.connect(t2).followRedirects(false).timeout(6000).get();
             	if(!document.body().getElementsByClass("tv-idea-label").isEmpty()) {
             		String value = document.body().getElementsByClass("tv-idea-label").get(0).text();
-            		//System.out.println(value);
             		tec.put("classe", value);
             	} else {
             		tec.put("classe", null);
@@ -107,13 +92,21 @@ public class TradingViewData {
 	public String csvWriter (String papel) throws IOException {
 			
 		String status 				= null;
-		CSVWriter csvWriter 		= new CSVWriter(new FileWriter("C:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\2018-09-17\\"+papel+".csv"));
-				
+		LocalDate today 			= LocalDate.now();		
+		String fileName 			= "c:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\"+today+"\\";		
+		Path path 		= Paths.get(fileName);
+		
+		if(!Files.exists(path)){
+			Files.createDirectory(path);
+		}
+		
+		CSVWriter csvWriter 		= new CSVWriter(new FileWriter("C:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\"+today+"\\"+papel+".csv"));	
+		
 		JSONParser parser = new JSONParser();
 		
 		try {
 		
-			Object obj = parser.parse(new FileReader("C:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\2018-09-17\\"+papel+".json"));
+			Object obj = parser.parse(new FileReader("C:\\Users\\vitor\\Documents\\GetDataset\\TradingView\\"+today+"\\"+papel+".json"));
 					
 			JSONArray ja = (JSONArray) obj;
 			
@@ -136,6 +129,25 @@ public class TradingViewData {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}			
+		
+		return status;
+		
+	}
+	
+	public String mergeFile() {
+		
+		String status 	= null;
+		LocalDate today = LocalDate.now();		
+		
+		try {
+
+			 Runtime.getRuntime().exec("cmd /c start cmd.exe /K \" cd .. && cd .. && cd \"GetDataset\\TradingView\\"+today+" \""); 
+			 
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		// copy *.csv dataset.csv
 		
 		return status;
 		
