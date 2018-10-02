@@ -44,31 +44,31 @@ public class App {
     	
     	sampleT.mergeFile();
 
-    	sampleM.InfoMoney("acoes", "https://www.infomoney.com.br/onde-investir/acoes/rss");
-    	sampleM.InfoMoney("analise-tecnica", "https://www.infomoney.com.br/mercados/analise-tecnica/rss");
-    	sampleM.InfoMoney("bitcoin", "https://www.infomoney.com.br/mercados/bitcoin/rss");
-    	sampleM.InfoMoney("acoes-indices", "https://www.infomoney.com.br/mercados/acoes-e-indices/rss");
-    	
-    	sampleM.csvWriter("acoes");
-    	sampleM.csvWriter("analise-tecnica");
-    	sampleM.csvWriter("bitcoin");
-    	sampleM.csvWriter("acoes-indices");
-    	
-    	sampleM.mergeFile();
-    	
-    	sampleC.Investing("analise-tecnica-mercado", "https://br.investing.com/rss/market_overview_Technical.rss");
-    	sampleC.Investing("analise-funda-mercado", "https://br.investing.com/rss/market_overview_Fundamental.rss");
-    	sampleC.Investing("analise-tecnica-acoes", "https://br.investing.com/rss/stock_Technical.rss");
-    	sampleC.Investing("analise-funda-acoes", "https://br.investing.com/rss/stock_Fundamental.rss");
-    	sampleC.Investing("opiniao-mercado", "https://br.investing.com/rss/stock_Opinion.rss"); 
-		
-		sampleC.csvWriter("analise-tecnica-mercado");
-		sampleC.csvWriter("analise-funda-mercado");
-		sampleC.csvWriter("analise-tecnica-acoes");
-		sampleC.csvWriter("analise-funda-acoes");
-		sampleC.csvWriter("opiniao-mercado");
-		
-		sampleC.mergeFile();
+//    	sampleM.InfoMoney("acoes", "https://www.infomoney.com.br/onde-investir/acoes/rss");
+//    	sampleM.InfoMoney("analise-tecnica", "https://www.infomoney.com.br/mercados/analise-tecnica/rss");
+//    	sampleM.InfoMoney("bitcoin", "https://www.infomoney.com.br/mercados/bitcoin/rss");
+//    	sampleM.InfoMoney("acoes-indices", "https://www.infomoney.com.br/mercados/acoes-e-indices/rss");
+//    	
+//    	sampleM.csvWriter("acoes");
+//    	sampleM.csvWriter("analise-tecnica");
+//    	sampleM.csvWriter("bitcoin");
+//    	sampleM.csvWriter("acoes-indices");
+//    	
+//    	sampleM.mergeFile();
+//    	
+//    	sampleC.Investing("analise-tecnica-mercado", "https://br.investing.com/rss/market_overview_Technical.rss");
+//    	sampleC.Investing("analise-funda-mercado", "https://br.investing.com/rss/market_overview_Fundamental.rss");
+//    	sampleC.Investing("analise-tecnica-acoes", "https://br.investing.com/rss/stock_Technical.rss");
+//    	sampleC.Investing("analise-funda-acoes", "https://br.investing.com/rss/stock_Fundamental.rss");
+//    	sampleC.Investing("opiniao-mercado", "https://br.investing.com/rss/stock_Opinion.rss"); 
+//		
+//		sampleC.csvWriter("analise-tecnica-mercado");
+//		sampleC.csvWriter("analise-funda-mercado");
+//		sampleC.csvWriter("analise-tecnica-acoes");
+//		sampleC.csvWriter("analise-funda-acoes");
+//		sampleC.csvWriter("opiniao-mercado");
+//		
+//		sampleC.mergeFile();
 
     }
     

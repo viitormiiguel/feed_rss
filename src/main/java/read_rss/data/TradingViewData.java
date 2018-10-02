@@ -50,10 +50,14 @@ public class TradingViewData {
     		SyndFeed feed 	= new SyndFeedInput().build(reader);
     		
     		for (Iterator i = feed.getEntries().iterator(); i.hasNext();) {			    			
-    			SyndEntry entry = (SyndEntry) i.next();				
-				JSONObject tec 	= new JSONObject();		
-				tec.put("title", entry.getTitle());
-				tec.put("description", frmt.unescapeHTML(entry.getDescription().getValue(), 0));	
+    			SyndEntry entry = (SyndEntry) i.next();
+				JSONObject tec 	= new JSONObject();
+				tec.put("title", entry.getTitle());	
+				
+				String descrption 	= entry.getDescription().getValue();
+				descrption 			= descrption.replace("\n", " ");
+				
+				tec.put("description", frmt.unescapeHTML(descrption, 0));				
 				tec.put("link", entry.getLink());
 				
 				String url 	= entry.getLink();
@@ -125,7 +129,7 @@ public class TradingViewData {
 			}	
 			csvWriter.close();
 			System.out.println("Arquivo gerado");
-					
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}			
